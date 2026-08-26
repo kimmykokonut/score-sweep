@@ -3,8 +3,10 @@
 _by [Kim Robinson](https://github.com/kimmykokonut)_
 
 No more hunting for scrap paper and a pen to keep score while playing Scopa!
+
 Discover your Primiera total without a headache.
-Save your mental energy for that Settebello
+
+Save your mental energy for that Settebello swipe.
 
 ## Jump around
 
@@ -22,7 +24,8 @@ Save your mental energy for that Settebello
 
 ## Introduction
 
-tbd
+This is a work in progress that was inspired when teaching others how to play scopa and the ensueuing frustration regarding primiera scoring.
+I thought it would be fun to build an app to calculate primiera for phase 1 while continuing to strengthen my skills in Typescript and React, and playing around with Vite's Progressive Web App plug in so I can have an app-like experience on my phone without needing to manage native code and maintain mobile store presence.
 
 ## Toolbelt
 
@@ -48,10 +51,9 @@ None at this time
 1. Code Editor
    To view or edit the code, you will need a code editor or text editor. The open-source code editor I used is VisualStudio Code.
 
-
-    (a) Code Editor Download: [VisualStudio Code](https://www.npmjs.com/)
-    (b) Click the download most applicable to your OS and system.
-    (c) Wait for download to complete, then install -- Windows will run the setup exe and macOS will drag and drop into applications.
+   (a) Code Editor Download: [VisualStudio Code](https://www.npmjs.com/)
+   (b) Click the download most applicable to your OS and system.
+   (c) Wait for download to complete, then install -- Windows will run the setup exe and macOS will drag and drop into applications.
 
 2. Node (& Homebrew)
 
@@ -113,10 +115,13 @@ Open [http://localhost:5173/](http://localhost:5173/) with your browser to see t
 
 ## Stretch Goals
 
-1. Phase 1: build Primiera calculator for 1 person
+Phases
+
+1. Build Primiera calculator for 1 person
 2. Primiera calc for up to 4 players, assess winner
 3. Add scopa scorecard for up to 4 players
 4. Progressive web app plugin
+   Stretch
 5. Data persistence
 6. Cribbage integration?
 
