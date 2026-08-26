@@ -2,7 +2,7 @@ import { createBrowserRouter } from "react-router";
 import { RouterProvider } from "react-router/dom";
 import Home from "./pages/Home";
 import Primiera from "./pages/Primiera";
-import "./App.css";
+// import "./App.css";
 
 const router = createBrowserRouter([
   { path: "/", element: <Home /> },
