@@ -24,8 +24,7 @@ function Home() {
             />
             <div>Primiera Calculator</div>
           </Link>
-          {/* TODO: Add link to scorecard page once page and route created  */}
-          <Link to="/primiera">
+          <Link to="/score">
             <img
               src={assoDenari}
               alt="Ace of coins card"
