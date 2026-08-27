@@ -1,11 +1,15 @@
 import { useState } from "react";
-import sevenCoins from "../assets/07_Sette_di_denari.jpg";
-import sevenCups from "../assets/17_Sette_di_coppe.jpg";
-import sevenSpades from "../assets/27_Sette_di_spade.jpg";
-import sevenClubs from "../assets/37_Sette_di_bastoni.jpg";
+import cup from "../assets/cup.png";
+import coin from "../assets/coin.png";
+import spade from "../assets/spade.png";
+import club from "../assets/club.png";
 
 function Primiera() {
   const [score, setScore] = useState<number | null>(null);
+  const [numPlayers, setNumPlayers] = useState<number | null>(null);
+  const [currentPlayer, setCurrentPlayer] = useState(1);
+  const [playerScores, setPlayerScores] = useState<number[]>([]);
+  const [showResults, setShowResults] = useState(false);
 
   const primieraValues: Record<string, number> = {
     seven: 21,
@@ -32,29 +36,42 @@ function Primiera() {
     const total = coinsValue + cupsValue + swordsValue + clubsValue;
     setScore(total);
   };
+
+  if (!numPlayers) {
+    return (
+      // extract to Component. modal?
+      <>
+        <p>How many players?</p>
+        <button onClick={() => setNumPlayers(2)}>2</button>
+        <button onClick={() => setNumPlayers(3)}>3</button>
+        <button onClick={() => setNumPlayers(4)}>4</button>
+      </>
+    );
+  }
+
   return (
     <>
       <h1>Primiera Calculator</h1>
       <div style={{ display: "flex", gap: "20px" }}>
         <img
-          src={sevenCoins}
-          alt="Seven of coins card"
-          style={{ width: "25%" }}
+          src={coin}
+          alt="coin suit"
+          style={{ width: "25%", height: "25%" }}
         />
         <img
-          src={sevenCups}
-          alt="Seven of cups card"
-          style={{ width: "25%" }}
+          src={cup}
+          alt="cups suit"
+          style={{ width: "25%", height: "25%" }}
         />
         <img
-          src={sevenSpades}
-          alt="Seven of spades card"
-          style={{ width: "25%" }}
+          src={spade}
+          alt="spades suit"
+          style={{ width: "25%", height: "25%" }}
         />
         <img
-          src={sevenClubs}
-          alt="Seven of clubs card"
-          style={{ width: "25%" }}
+          src={club}
+          alt="club suit"
+          style={{ width: "25%", height: "25%" }}
         />
       </div>
       <form onSubmit={handleCalculate}>
