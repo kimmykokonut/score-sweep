@@ -9,7 +9,6 @@ function Primiera() {
   const [numPlayers, setNumPlayers] = useState<number | null>(null);
   const [currentPlayer, setCurrentPlayer] = useState(1);
   const [playerScores, setPlayerScores] = useState<number[]>([]);
-  // const [showResults, setShowResults] = useState(false);
 
   const primieraValues: Record<string, number> = {
     seven: 21,
@@ -22,12 +21,23 @@ function Primiera() {
     face: 10,
   };
 
+  const resetCalculator = () => {
+    setNumPlayers(null);
+    setPlayerScores([]);
+    setCurrentPlayer(1);
+    setCurrentScore(null);
+  };
+
+  const resetSamePlayers = () => {
+    setPlayerScores([]);
+    setCurrentPlayer(1);
+    setCurrentScore(null);
+  };
+
   const handleCalculate = (event: SubmitEvent) => {
     event.preventDefault();
     const formData = new FormData(event.target as HTMLFormElement);
     const data = Object.fromEntries(formData);
-    console.log(data);
-
     const coinsValue = primieraValues[data.coins as string];
     const cupsValue = primieraValues[data.cups as string];
     const swordsValue = primieraValues[data.swords as string];
@@ -35,19 +45,22 @@ function Primiera() {
 
     const total = coinsValue + cupsValue + swordsValue + clubsValue;
     setCurrentScore(total);
-    setPlayerScores([...playerScores, total]);
-    console.log("player scores", playerScores);
-    // trigger final screen
-    // if (currentPlayer === numPlayers) {
-    //   setShowResults(true);
-    // }
+  };
+
+  const handleContinue = () => {
+    if (currentScore !== null) {
+      setPlayerScores([...playerScores, currentScore]);
+    }
+    setCurrentPlayer(currentPlayer + 1);
+    setCurrentScore(null);
   };
 
   const determineWinner = () => {
     if (playerScores.length === 0) return null;
     const sortedScores = [...playerScores].sort((a, b) => b - a);
+    // determine tie
     if (sortedScores[0] === sortedScores[1]) {
-      return null; // TIE
+      return null;
     }
     const highScore = sortedScores[0];
     const winnerIndex = playerScores.indexOf(highScore);
@@ -90,11 +103,16 @@ function Primiera() {
             </li>
           ))}
         </ul>
+
+        <button onClick={() => resetSamePlayers()}>
+          Score Again (same number players)
+        </button>
+        <button onClick={() => resetCalculator()}>Start New Calculator</button>
       </>
     );
   }
 
-  // calculate 1 score
+  // calculates one players score
   if (numPlayers && !allPlayersScored) {
     return (
       <>
@@ -173,7 +191,6 @@ function Primiera() {
 
           <input type="submit" value="Calculate" />
         </form>
-
         {currentScore !== null && (
           <div>
             <p>
@@ -182,15 +199,15 @@ function Primiera() {
           </div>
         )}
         {currentScore && (
-          <button
-            onClick={() => {
-              setCurrentPlayer(currentPlayer + 1);
-              setCurrentScore(null);
-            }}
-          >
-            Next Player
-          </button>
+          <button onClick={handleContinue}>Continue to Next Player</button>
         )}
+        <ul>
+          {playerScores.map((score, player) => (
+            <li key={player}>
+              Player {player + 1} : Score {score}
+            </li>
+          ))}
+        </ul>
       </>
     );
   }
