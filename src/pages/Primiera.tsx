@@ -9,7 +9,7 @@ function Primiera() {
   const [numPlayers, setNumPlayers] = useState<number | null>(null);
   const [currentPlayer, setCurrentPlayer] = useState(1);
   const [playerScores, setPlayerScores] = useState<number[]>([]);
-  const [showResults, setShowResults] = useState(false);
+  // const [showResults, setShowResults] = useState(false);
 
   const primieraValues: Record<string, number> = {
     seven: 21,
@@ -23,7 +23,7 @@ function Primiera() {
   };
 
   const handleCalculate = (event: SubmitEvent) => {
-    e.preventDefault();
+    event.preventDefault();
     const formData = new FormData(event.target as HTMLFormElement);
     const data = Object.fromEntries(formData);
     console.log(data);
@@ -38,16 +38,28 @@ function Primiera() {
     setPlayerScores([...playerScores, total]);
     console.log("player scores", playerScores);
     // trigger final screen
-    if (currentPlayer === numPlayers) {
-      setShowResults(true);
-    }
+    // if (currentPlayer === numPlayers) {
+    //   setShowResults(true);
+    // }
   };
 
-  // prompt user choose # players. TODO extract to component.
+  const determineWinner = () => {
+    if (playerScores.length === 0) return null;
+    const sortedScores = [...playerScores].sort((a, b) => b - a);
+    if (sortedScores[0] === sortedScores[1]) {
+      return null; // TIE
+    }
+    const highScore = sortedScores[0];
+    const winnerIndex = playerScores.indexOf(highScore);
+    return winnerIndex + 1;
+  };
+
+  // prompt user choose # players. TODO extract to component. <PlayerSelection>
   if (!numPlayers) {
     return (
       <>
         <p>How many players?</p>
+        {/* TODO: make helper function to pass #players, reset state,  */}
         <button onClick={() => setNumPlayers(2)}>2</button>
         <button onClick={() => setNumPlayers(3)}>3</button>
         <button onClick={() => setNumPlayers(4)}>4</button>
@@ -55,13 +67,22 @@ function Primiera() {
     );
   }
 
-  // final page with results. animation?
-  if (showResults) {
+  const allPlayersScored = playerScores.length === numPlayers;
+
+  if (allPlayersScored) {
+    const winner = determineWinner();
+
     return (
       <>
         <h1>Final Results</h1>
-        <p>Winner: Player X</p>
-        <p>{Math.max(...playerScores)}</p>
+        {winner ? (
+          <p>
+            {" "}
+            <p>Winner: Player {winner}</p>
+          </p>
+        ) : (
+          <p>Tie (no point scored)</p>
+        )}
         <ul>
           {playerScores.map((score, player) => (
             <li key={player}>
@@ -74,7 +95,7 @@ function Primiera() {
   }
 
   // calculate 1 score
-  if (numPlayers && !showResults) {
+  if (numPlayers && !allPlayersScored) {
     return (
       <>
         <h1>Primiera Calculator</h1>
