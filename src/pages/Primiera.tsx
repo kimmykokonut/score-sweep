@@ -39,14 +39,8 @@ function Primiera() {
     face: 10,
   };
 
-  const resetCalculator = () => {
-    setNumPlayers(null);
-    setPlayerScores([]);
-    setCurrentPlayer(1);
-    setCurrentScore(null);
-  };
-
-  const resetSamePlayers = () => {
+  const resetCaculator = (players: number | null = null) => {
+    setNumPlayers(players);
     setPlayerScores([]);
     setCurrentPlayer(1);
     setCurrentScore(null);
@@ -63,10 +57,6 @@ function Primiera() {
       clubs: formData.get("clubs") as CardValue,
     };
 
-    // don't calculate if field is missing
-    if (!data.coins || !data.cups || !data.swords || !data.clubs) {
-      return;
-    }
     const coinsValue = primieraValues[data.coins];
     const cupsValue = primieraValues[data.cups];
     const swordsValue = primieraValues[data.swords];
@@ -101,9 +91,9 @@ function Primiera() {
     return (
       <>
         <p>How many players?</p>
-        <button onClick={() => setNumPlayers(2)}>2</button>
-        <button onClick={() => setNumPlayers(3)}>3</button>
-        <button onClick={() => setNumPlayers(4)}>4</button>
+        <button onClick={() => resetCaculator(2)}>2</button>
+        <button onClick={() => resetCaculator(3)}>3</button>
+        <button onClick={() => resetCaculator(4)}>4</button>
       </>
     );
   }
@@ -139,10 +129,12 @@ function Primiera() {
             </li>
           ))}
         </ul>
-        <button onClick={() => resetSamePlayers()}>
+        <button onClick={() => resetCaculator(numPlayers)}>
           Score Again (same number players)
         </button>
-        <button onClick={() => resetCalculator()}>Start New Calculator</button>
+        <button onClick={() => resetCalculator(null)}>
+          Start New Calculator
+        </button>
       </>
     );
   }
