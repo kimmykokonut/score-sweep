@@ -115,7 +115,15 @@ function Primiera() {
 
     return (
       <>
-        <h1>Final Results</h1>
+        // turn into Header component later
+        <div
+          style={{ position: "fixed", top: "10px", left: "10px", zIndex: 1000 }}
+        >
+          <Link to="/" style={{ fontSize: "24px", textDecoration: "none" }}>
+            ← Back
+          </Link>
+        </div>
+        ;<h1>Final Results</h1>
         {winner ? (
           <p>
             {" "}
