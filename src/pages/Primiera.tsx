@@ -99,12 +99,33 @@ function Primiera() {
   // prompt user choose # players. TODO extract to component. <PlayerSelection>
   if (!numPlayers) {
     return (
-      <>
-        <p>How many players?</p>
-        <button onClick={() => resetCaculator(2)}>2</button>
-        <button onClick={() => resetCaculator(3)}>3</button>
-        <button onClick={() => resetCaculator(4)}>4</button>
-      </>
+      <div className="min-h-screen bg-gradient-to-br from-emerald-700 to-emerald-800 flex flex-col items-center justify-center p-6">
+        <h1 className="text-3xl font-bold text-white mb-2 text-center">
+          Primiera Calculator
+        </h1>
+        <p className="text-green-200 mb-8 text-center">Quanti giocatori?</p>
+
+        <div className="flex flex-col gap-4 w-full max-w-xs">
+          <button
+            onClick={() => resetCaculator(2)}
+            className="bg-white text-green-900 font-bold py-4 px-8 rounded-lg shadow-lg hover:bg-stone-300 hover:scale-105 transition-all text-xl flex items-center justify-center gap-3"
+          >
+            <img src={coin} alt="card" className="w-8 h-8" />2 Players
+          </button>
+          <button
+            onClick={() => resetCaculator(3)}
+            className="bg-white text-green-900 font-bold py-4 px-8 rounded-lg shadow-lg hover:bg-stone-300 hover:scale-105 transition-all text-xl flex items-center justify-center gap-3"
+          >
+            <img src={club} alt="card" className="w-8 h-8" />3 Players
+          </button>
+          <button
+            onClick={() => resetCaculator(4)}
+            className="bg-white text-green-900 font-bold py-4 px-8 rounded-lg shadow-lg hover:bg-stone-300 hover:scale-105 transition-all text-xl flex items-center justify-center gap-3"
+          >
+            <img src={cup} alt="card" className="w-8 h-8" />4 Players
+          </button>
+        </div>
+      </div>
     );
   }
 
