@@ -1,15 +1,32 @@
 import { useState } from "react";
 import { Link } from "react-router";
-import cup from "../assets/cup.png";
-import coin from "../assets/coin.png";
-import spade from "../assets/spade.png";
-import club from "../assets/club.png";
+import tenCoins from "../assets/10-denari.jpg";
+import nineCoins from "../assets/9-denari.jpg";
+import eightCoins from "../assets/8-denari.jpg";
+import sevenCoins from "../assets/7-denari.jpg";
+import sixCoins from "../assets/6-denari.jpg";
+import fiveCoins from "../assets/5-denari.jpg";
+import fourCoins from "../assets/4-denari.jpg";
+import threeCoins from "../assets/3-denari.jpg";
+import twoCoins from "../assets/2-denari.jpg";
+import aceCoins from "../assets/1-denari.jpg";
 
 function Primiera() {
   const [currentScore, setCurrentScore] = useState<number | null>(null);
   const [numPlayers, setNumPlayers] = useState<number | null>(null);
   const [currentPlayer, setCurrentPlayer] = useState(1);
   const [playerScores, setPlayerScores] = useState<number[]>([]);
+  const [cardSelections, setCardSelections] = useState<{
+    coins: CardValue | null;
+    cups: CardValue | null;
+    swords: CardValue | null;
+    clubs: CardValue | null;
+  }>({
+    coins: null,
+    cups: null,
+    swords: null,
+    clubs: null,
+  });
 
   type CardValue =
     | "seven"
@@ -20,13 +37,6 @@ function Primiera() {
     | "three"
     | "two"
     | "face";
-
-  interface PrimieraFormData {
-    coins: CardValue;
-    cups: CardValue;
-    swords: CardValue;
-    clubs: CardValue;
-  }
 
   const primieraValues: Record<CardValue, number> = {
     seven: 21,
@@ -48,21 +58,20 @@ function Primiera() {
 
   const handleCalculate = (event: SubmitEvent) => {
     event.preventDefault();
-    const formData = new FormData(event.target as HTMLFormElement);
 
-    const data: PrimieraFormData = {
-      coins: formData.get("coins") as CardValue,
-      cups: formData.get("cups") as CardValue,
-      swords: formData.get("swords") as CardValue,
-      clubs: formData.get("clubs") as CardValue,
-    };
+    if (
+      !cardSelections.coins ||
+      !cardSelections.cups ||
+      !cardSelections.swords ||
+      !cardSelections.clubs
+    )
+      return;
 
-    const coinsValue = primieraValues[data.coins];
-    const cupsValue = primieraValues[data.cups];
-    const swordsValue = primieraValues[data.swords];
-    const clubsValue = primieraValues[data.clubs];
-
-    const total = coinsValue + cupsValue + swordsValue + clubsValue;
+    const total =
+      primieraValues[cardSelections.coins] +
+      primieraValues[cardSelections.cups] +
+      primieraValues[cardSelections.swords] +
+      primieraValues[cardSelections.clubs];
     setCurrentScore(total);
   };
 
@@ -74,7 +83,7 @@ function Primiera() {
     setCurrentScore(null);
   };
 
-  const determineWinner = () => {
+  const determinePrimieraWinner = () => {
     if (playerScores.length === 0) return null;
     const sortedScores = [...playerScores].sort((a, b) => b - a);
     // determine tie
@@ -101,11 +110,11 @@ function Primiera() {
   const allPlayersScored = playerScores.length === numPlayers;
 
   if (allPlayersScored) {
-    const winner = determineWinner();
+    const winner = determinePrimieraWinner();
 
     return (
       <>
-        // turn into Header component later
+        {/* turn into Header component later */}
         <div
           style={{ position: "fixed", top: "10px", left: "10px", zIndex: 1000 }}
         >
@@ -130,10 +139,10 @@ function Primiera() {
           ))}
         </ul>
         <button onClick={() => resetCaculator(numPlayers)}>
-          Score Again (same number players)
+          Reset Calculator (same number of players)
         </button>
-        <button onClick={() => resetCalculator(null)}>
-          Start New Calculator
+        <button onClick={() => resetCaculator(null)}>
+          Reset and change player count
         </button>
       </>
     );
@@ -143,30 +152,85 @@ function Primiera() {
   if (numPlayers && !allPlayersScored) {
     return (
       <>
+        {/* put this h1 in header?  */}
         <h1>Primiera Calculator</h1>
         <h3>Player {currentPlayer}</h3>
-        <div style={{ display: "flex", gap: "20px" }}>
-          <img
-            src={coin}
-            alt="coin suit"
-            style={{ width: "25%", height: "25%" }}
-          />
-          <img
-            src={cup}
-            alt="cups suit"
-            style={{ width: "25%", height: "25%" }}
-          />
-          <img
-            src={spade}
-            alt="spades suit"
-            style={{ width: "25%", height: "25%" }}
-          />
-          <img
-            src={club}
-            alt="club suit"
-            style={{ width: "25%", height: "25%" }}
-          />
+        <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
+          <h3>Coins (Denari)</h3>
+          <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
+            <button
+              onClick={() =>
+                setCardSelections((prev) => ({ ...prev, coins: "seven" }))
+              }
+            >
+              <img src={sevenCoins} alt="7 of coins" />
+            </button>
+            <button
+              onClick={() =>
+                setCardSelections((prev) => ({ ...prev, coins: "six" }))
+              }
+            >
+              <img src={sixCoins} alt="6 of coins" />
+            </button>
+            <button
+              onClick={() =>
+                setCardSelections((prev) => ({ ...prev, coins: "ace" }))
+              }
+            >
+              <img src={aceCoins} alt="Ace of coins" />
+            </button>
+            <button
+              onClick={() =>
+                setCardSelections((prev) => ({ ...prev, coins: "five" }))
+              }
+            >
+              <img src={fiveCoins} alt="5 of coins" />
+            </button>
+            <button
+              onClick={() =>
+                setCardSelections((prev) => ({ ...prev, coins: "four" }))
+              }
+            >
+              <img src={fourCoins} alt="4 of coins" />
+            </button>
+            <button
+              onClick={() =>
+                setCardSelections((prev) => ({ ...prev, coins: "three" }))
+              }
+            >
+              <img src={threeCoins} alt="3 of coins" />
+            </button>
+            <button
+              onClick={() =>
+                setCardSelections((prev) => ({ ...prev, coins: "two" }))
+              }
+            >
+              <img src={twoCoins} alt="2 of coins" />
+            </button>
+            <button
+              onClick={() =>
+                setCardSelections((prev) => ({ ...prev, coins: "face" }))
+              }
+            >
+              <img src={tenCoins} alt="King of coins" />
+            </button>
+            <button
+              onClick={() =>
+                setCardSelections((prev) => ({ ...prev, coins: "face" }))
+              }
+            >
+              <img src={nineCoins} alt="Horse of coins" />
+            </button>
+            <button
+              onClick={() =>
+                setCardSelections((prev) => ({ ...prev, coins: "face" }))
+              }
+            >
+              <img src={eightCoins} alt="Jack of coins" />
+            </button>
+          </div>
         </div>
+
         <form onSubmit={handleCalculate}>
           <label htmlFor="coins">Coins (Denari)</label>
           <select name="coins" id="coins">
