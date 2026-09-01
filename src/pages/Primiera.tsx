@@ -5,6 +5,7 @@ import coin from "../assets/coin.png";
 import cup from "../assets/cup.png";
 import club from "../assets/club.png";
 import sword from "../assets/spade.png";
+import { getCardImage } from "../utils/cardImages";
 
 export type Suits = "coins" | "cups" | "swords" | "clubs";
 
@@ -16,7 +17,9 @@ export type CardValue =
   | "four"
   | "three"
   | "two"
-  | "face";
+  | "jack"
+  | "horse"
+  | "king";
 
 function Primiera() {
   const [currentScore, setCurrentScore] = useState<number | null>(null);
@@ -44,7 +47,9 @@ function Primiera() {
     four: 14,
     three: 13,
     two: 12,
-    face: 10,
+    jack: 10,
+    horse: 10,
+    king: 10,
   };
 
   const resetCaculator = (players: number | null = null) => {
@@ -154,22 +159,21 @@ function Primiera() {
         <div>
           <button onClick={() => setActiveSuit("coins")}>
             {cardSelections.coins ? (
-              <img src={coin} alt="Selected coin card" />
+              <img
+                src={getCardImage("coins", cardSelections.coins)}
+                alt="Selected coin card"
+              />
             ) : (
               <img src={coin} alt="Coin suit" />
             )}
           </button>
           <button onClick={() => setActiveSuit("cups")}>
             <img src={cup} alt="Cup suit" />
-            {/* Cups: {cardSelections.cups || "Select"} */}
           </button>
           <button onClick={() => setActiveSuit("swords")}>
             <img src={sword} alt="Spade/Sword suit" />
-
-            {/* Swords: {cardSelections.swords || "Select"} */}
           </button>
           <button onClick={() => setActiveSuit("clubs")}>
-            {/* Clubs: {cardSelections.clubs || "Select"} */}
             <img src={club} alt="Club suit" />
           </button>
         </div>
