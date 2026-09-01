@@ -2,11 +2,13 @@
 
 _by [Kim Robinson](https://github.com/kimmykokonut)_
 
-No more hunting for scrap paper and a pen to keep score while playing Scopa!
+📝 No more hunting for scrap paper and a pen to keep score while playing Scopa!
 
-Discover your Primiera total without a headache.
+🤯 Discover your Primiera total without a headache.
 
-Save your mental energy for that Settebello swipe.
+🌞 Save your mental energy for that Settebello swipe.
+
+![Settebello card](src/assets/7-denari.jpg)
 
 ## Jump around
 

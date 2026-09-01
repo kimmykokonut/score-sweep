@@ -1,21 +1,29 @@
 import { useState } from "react";
 import { Link } from "react-router";
-import tenCoins from "../assets/10-denari.jpg";
-import nineCoins from "../assets/9-denari.jpg";
-import eightCoins from "../assets/8-denari.jpg";
-import sevenCoins from "../assets/7-denari.jpg";
-import sixCoins from "../assets/6-denari.jpg";
-import fiveCoins from "../assets/5-denari.jpg";
-import fourCoins from "../assets/4-denari.jpg";
-import threeCoins from "../assets/3-denari.jpg";
-import twoCoins from "../assets/2-denari.jpg";
-import aceCoins from "../assets/1-denari.jpg";
+import CardSelector from "../components/CardSelector";
+import coin from "../assets/coin.png";
+import cup from "../assets/cup.png";
+import club from "../assets/club.png";
+import sword from "../assets/spade.png";
+
+export type Suits = "coins" | "cups" | "swords" | "clubs";
+
+export type CardValue =
+  | "seven"
+  | "six"
+  | "ace"
+  | "five"
+  | "four"
+  | "three"
+  | "two"
+  | "face";
 
 function Primiera() {
   const [currentScore, setCurrentScore] = useState<number | null>(null);
   const [numPlayers, setNumPlayers] = useState<number | null>(null);
   const [currentPlayer, setCurrentPlayer] = useState(1);
   const [playerScores, setPlayerScores] = useState<number[]>([]);
+  const [activeSuit, setActiveSuit] = useState<Suits | null>(null);
   const [cardSelections, setCardSelections] = useState<{
     coins: CardValue | null;
     cups: CardValue | null;
@@ -27,16 +35,6 @@ function Primiera() {
     swords: null,
     clubs: null,
   });
-
-  type CardValue =
-    | "seven"
-    | "six"
-    | "ace"
-    | "five"
-    | "four"
-    | "three"
-    | "two"
-    | "face";
 
   const primieraValues: Record<CardValue, number> = {
     seven: 21,
@@ -56,9 +54,7 @@ function Primiera() {
     setCurrentScore(null);
   };
 
-  const handleCalculate = (event: SubmitEvent) => {
-    event.preventDefault();
-
+  const handleCalculate = () => {
     if (
       !cardSelections.coins ||
       !cardSelections.cups ||
@@ -155,133 +151,50 @@ function Primiera() {
         {/* put this h1 in header?  */}
         <h1>Primiera Calculator</h1>
         <h3>Player {currentPlayer}</h3>
-        <div style={{ display: "flex", flexDirection: "column", gap: "20px" }}>
-          <h3>Coins (Denari)</h3>
-          <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
-            <button
-              onClick={() =>
-                setCardSelections((prev) => ({ ...prev, coins: "seven" }))
-              }
-            >
-              <img src={sevenCoins} alt="7 of coins" />
-            </button>
-            <button
-              onClick={() =>
-                setCardSelections((prev) => ({ ...prev, coins: "six" }))
-              }
-            >
-              <img src={sixCoins} alt="6 of coins" />
-            </button>
-            <button
-              onClick={() =>
-                setCardSelections((prev) => ({ ...prev, coins: "ace" }))
-              }
-            >
-              <img src={aceCoins} alt="Ace of coins" />
-            </button>
-            <button
-              onClick={() =>
-                setCardSelections((prev) => ({ ...prev, coins: "five" }))
-              }
-            >
-              <img src={fiveCoins} alt="5 of coins" />
-            </button>
-            <button
-              onClick={() =>
-                setCardSelections((prev) => ({ ...prev, coins: "four" }))
-              }
-            >
-              <img src={fourCoins} alt="4 of coins" />
-            </button>
-            <button
-              onClick={() =>
-                setCardSelections((prev) => ({ ...prev, coins: "three" }))
-              }
-            >
-              <img src={threeCoins} alt="3 of coins" />
-            </button>
-            <button
-              onClick={() =>
-                setCardSelections((prev) => ({ ...prev, coins: "two" }))
-              }
-            >
-              <img src={twoCoins} alt="2 of coins" />
-            </button>
-            <button
-              onClick={() =>
-                setCardSelections((prev) => ({ ...prev, coins: "face" }))
-              }
-            >
-              <img src={tenCoins} alt="King of coins" />
-            </button>
-            <button
-              onClick={() =>
-                setCardSelections((prev) => ({ ...prev, coins: "face" }))
-              }
-            >
-              <img src={nineCoins} alt="Horse of coins" />
-            </button>
-            <button
-              onClick={() =>
-                setCardSelections((prev) => ({ ...prev, coins: "face" }))
-              }
-            >
-              <img src={eightCoins} alt="Jack of coins" />
-            </button>
-          </div>
+        <div>
+          <button onClick={() => setActiveSuit("coins")}>
+            {cardSelections.coins ? (
+              <img src={coin} alt="Selected coin card" />
+            ) : (
+              <img src={coin} alt="Coin suit" />
+            )}
+          </button>
+          <button onClick={() => setActiveSuit("cups")}>
+            <img src={cup} alt="Cup suit" />
+            {/* Cups: {cardSelections.cups || "Select"} */}
+          </button>
+          <button onClick={() => setActiveSuit("swords")}>
+            <img src={sword} alt="Spade/Sword suit" />
+
+            {/* Swords: {cardSelections.swords || "Select"} */}
+          </button>
+          <button onClick={() => setActiveSuit("clubs")}>
+            {/* Clubs: {cardSelections.clubs || "Select"} */}
+            <img src={club} alt="Club suit" />
+          </button>
         </div>
+        {activeSuit && (
+          <CardSelector
+            activeSuit={activeSuit}
+            onClose={() => setActiveSuit(null)}
+            onCardSelect={(suit, value) => {
+              setCardSelections((prev) => ({ ...prev, [suit]: value }));
+              setActiveSuit(null);
+            }}
+          />
+        )}
 
-        <form onSubmit={handleCalculate}>
-          <label htmlFor="coins">Coins (Denari)</label>
-          <select name="coins" id="coins">
-            <option value="seven">7</option>
-            <option value="six">6</option>
-            <option value="ace">A</option>
-            <option value="five">5</option>
-            <option value="four">4</option>
-            <option value="three">3</option>
-            <option value="two">2</option>
-            <option value="face">King, Queen, Jack</option>
-          </select>
-
-          <label htmlFor="cups">Cups (Coppe)</label>
-          <select name="cups" id="cups">
-            <option value="seven">7</option>
-            <option value="six">6</option>
-            <option value="ace">A</option>
-            <option value="five">5</option>
-            <option value="four">4</option>
-            <option value="three">3</option>
-            <option value="two">2</option>
-            <option value="face">King, Queen, Jack</option>
-          </select>
-
-          <label htmlFor="swords">Swords (Spade)</label>
-          <select name="swords" id="swords">
-            <option value="seven">7</option>
-            <option value="six">6</option>
-            <option value="ace">A</option>
-            <option value="five">5</option>
-            <option value="four">4</option>
-            <option value="three">3</option>
-            <option value="two">2</option>
-            <option value="face">King, Queen, Jack</option>
-          </select>
-
-          <label htmlFor="clubs">Clubs (Bastoni)</label>
-          <select name="clubs" id="clubs">
-            <option value="seven">7</option>
-            <option value="six">6</option>
-            <option value="ace">A</option>
-            <option value="five">5</option>
-            <option value="four">4</option>
-            <option value="three">3</option>
-            <option value="two">2</option>
-            <option value="face">King, Queen, Jack</option>
-          </select>
-
-          <input type="submit" value="Calculate" />
-        </form>
+        <button
+          onClick={handleCalculate}
+          disabled={
+            !cardSelections.coins ||
+            !cardSelections.cups ||
+            !cardSelections.swords ||
+            !cardSelections.clubs
+          }
+        >
+          Calculate score
+        </button>
         {currentScore !== null && (
           <div>
             <p>

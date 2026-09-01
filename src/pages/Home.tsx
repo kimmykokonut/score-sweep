@@ -1,6 +1,6 @@
 import { Link } from "react-router";
-import setteBello from "../assets/07_Sette_di_denari.jpg";
-import assoDenari from "../assets/01_Asso_di_denari.jpg";
+import setteBello from "../assets/7-denari.jpg";
+import assoDenari from "../assets/1-denari.jpg";
 
 function Home() {
   return (
