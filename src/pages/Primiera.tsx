@@ -8,10 +8,7 @@ import {
 } from "../utils/primieraCalculator";
 import { getCardImage } from "../utils/cardImages";
 import type { CardSelections, Suits } from "../types";
-import coin from "../assets/denare.png";
-import cup from "../assets/coppa.png";
-import club from "../assets/bastone.png";
-import sword from "../assets/spada.png";
+import { CARD_DATA } from "../utils/cardData";
 
 function Primiera() {
   const [currentScore, setCurrentScore] = useState<number | null>(null);
@@ -25,13 +22,6 @@ function Primiera() {
     swords: null,
     clubs: null,
   });
-
-  const suits = [
-    { id: "coins" as Suits, image: coin, name: "Coins" },
-    { id: "cups" as Suits, image: cup, name: "Cups" },
-    { id: "swords" as Suits, image: sword, name: "Swords" },
-    { id: "clubs" as Suits, image: club, name: "Clubs" },
-  ];
 
   const resetCaculator = (players: number | null = null) => {
     setNumPlayers(players);
@@ -67,19 +57,30 @@ function Primiera() {
             onClick={() => resetCaculator(2)}
             className="bg-white text-green-800 font-bold py-4 px-8 rounded-lg shadow-lg hover:bg-gray-200 hover:scale-105 transition-all text-xl flex items-center justify-center gap-3"
           >
-            <img src={coin} alt="Coin suit" className="h-10" />2 Players
+            <img
+              src={CARD_DATA["coins"].icon}
+              alt="Coin suit"
+              className="h-10"
+            />
+            2 Players
           </button>
           <button
             onClick={() => resetCaculator(3)}
             className="bg-white text-green-800 font-bold py-4 px-8 rounded-lg shadow-lg hover:bg-gray-200 hover:scale-105 transition-all text-xl flex items-center justify-center gap-3"
           >
-            <img src={sword} alt="Sword suit" className="h-10" />3 Players
+            <img
+              src={CARD_DATA["swords"].icon}
+              alt="Sword suit"
+              className="h-10"
+            />
+            3 Players
           </button>
           <button
             onClick={() => resetCaculator(4)}
             className="bg-white text-green-800 font-bold py-4 px-8 rounded-lg shadow-lg hover:bg-gray-200 hover:scale-105 transition-all text-xl flex items-center justify-center gap-3"
           >
-            <img src={cup} alt="Cup Suit" className="h-10" />4 Players
+            <img src={CARD_DATA["cups"].icon} alt="Cup Suit" className="h-10" />
+            4 Players
           </button>
         </div>
       </div>
@@ -127,8 +128,9 @@ function Primiera() {
         {/* put this h1 in header?  */}
         <h1>Primiera Calculator</h1>
         <h3>Player {currentPlayer}</h3>
+        {/* display suit or chosen card  */}
         <div className="flex gap-4">
-          {suits.map((suit) => (
+          {SUITS.map((suit) => (
             <button
               key={suit.id}
               onClick={() => setActiveSuit(suit.id)}
@@ -137,8 +139,8 @@ function Primiera() {
               {cardSelections[suit.id] ? (
                 <div>
                   <img
-                    src={getCardImage(suit.id, cardSelections[suit.id])}
-                    alt={`Selected {suit.id} card`}
+                    src={getCardImage(suit.id, cardSelections[suit.id!])}
+                    alt={`Selected ${suit.id} card`}
                     className="w-24 h-auto"
                   />
                   <span className="text-sm mt-1 capitalize">
