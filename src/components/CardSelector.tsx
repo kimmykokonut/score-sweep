@@ -1,5 +1,5 @@
 import type { Suits, CardValue } from "../types";
-import { getCardImage } from "../utils/cardImages";
+import { CARD_DATA } from "../utils/cardData";
 
 interface CardSelectorProps {
   activeSuit: Suits | null;
@@ -18,60 +18,20 @@ function CardSelector({
     <div onClick={onClose}>
       <div className="modal-content" onClick={(e) => e.stopPropagation()}>
         <h3>Select {activeSuit}</h3>
-        {/* TODO make grid  */}
-        <div>
-          <div className="modal">
-            <div
-              style={{ display: "flex", flexDirection: "column", gap: "20px" }}
+        <div className="flex gap-4">
+          {CARD_DATA[activeSuit].cards.map((card) => (
+            <button
+              key={card.value}
+              onClick={() => onCardSelect(activeSuit, card.value)}
+              className="flex flex-col items-center p-2 border-2 border-purple rounded-lg hover:border-blue-500 transition-all"
             >
-              <h3>Coins (Denari)</h3>
-              <div style={{ display: "flex", gap: "10px", flexWrap: "wrap" }}>
-                <button onClick={() => onCardSelect(activeSuit, "seven")}>
-                  <img src={getCardImage("coins", "seven")} alt="7 of coins" />
-                </button>
-                <button onClick={() => onCardSelect(activeSuit, "six")}>
-                  <img src={getCardImage("coins", "six")} alt="6 of coins" />
-                </button>
-                <button onClick={() => onCardSelect(activeSuit, "ace")}>
-                  <img src={getCardImage("coins", "ace")} alt="Ace of coins" />
-                </button>
-                <button onClick={() => onCardSelect(activeSuit, "five")}>
-                  <img src={getCardImage("coins", "five")} alt="5 of coins" />
-                </button>
-                <button onClick={() => onCardSelect(activeSuit, "four")}>
-                  <img src={getCardImage("coins", "four")} alt="4 of coins" />
-                </button>
-                <button onClick={() => onCardSelect(activeSuit, "three")}>
-                  <img src={getCardImage("coins", "three")} alt="3 of coins" />
-                </button>
-                <button onClick={() => onCardSelect(activeSuit, "two")}>
-                  <img src={getCardImage("coins", "two")} alt="2 of coins" />
-                </button>
-                <button onClick={() => onCardSelect(activeSuit, "king")}>
-                  <img
-                    src={getCardImage("coins", "king")}
-                    alt="King of coins"
-                  />
-                </button>
-                <button onClick={() => onCardSelect(activeSuit, "horse")}>
-                  <img
-                    src={getCardImage("coins", "horse")}
-                    alt="Horse of coins"
-                  />
-                </button>
-                <button onClick={() => onCardSelect(activeSuit, "jack")}>
-                  <img
-                    src={getCardImage("coins", "jack")}
-                    alt="Jack of coins"
-                  />
-                </button>
-                <button onClick={onClose}>Cancel</button>
-              </div>
-            </div>
-            {/* TODO: add clubs  */}
-            {/* TODO: add swords  */}
-            {/* TODO: add cups  */}
-          </div>
+              <img
+                src={card.image}
+                alt={`${card.displayName} of ${CARD_DATA[activeSuit].name}`}
+              />
+            </button>
+          ))}
+          <button onClick={onClose}>Cancel</button>
         </div>
       </div>
     </div>

@@ -110,12 +110,14 @@ function Primiera() {
             </li>
           ))}
         </ul>
-        <button onClick={() => resetCaculator(numPlayers)}>
-          Reset Calculator (same number of players)
-        </button>
-        <button onClick={() => resetCaculator(null)}>
-          Reset and change player count
-        </button>
+        <div>
+          <button className="border" onClick={() => resetCaculator(numPlayers)}>
+            Reset Calculator (same number of players)
+          </button>
+          <button className="border" onClick={() => resetCaculator(null)}>
+            Reset and change player count
+          </button>
+        </div>
       </>
     );
   }
