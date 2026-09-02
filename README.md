@@ -21,6 +21,7 @@ _by [Kim Robinson](https://github.com/kimmykokonut)_
 - [Stretch Goals](#stretch-goals)
 - [Contact and Support](#contact-and-support)
 - [License](#license)
+- [Acknowledgements](#acknowledgements)
 
 ---
 
@@ -136,3 +137,7 @@ If you have any feedback or concerns,
 ## License
 
 tbd
+
+## Acknowledgements
+
+Card images attributed to https://commons.wikimedia.org/wiki/Category:Naples_deck
