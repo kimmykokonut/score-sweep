@@ -1,25 +1,17 @@
 import { useState } from "react";
 import { Link } from "react-router";
 import CardSelector from "../components/CardSelector";
+import {
+  calculatePrimieraScore,
+  determinePrimieraWinner,
+  primieraValues,
+} from "../utils/primieraCalculator";
+import { getCardImage } from "../utils/cardImages";
+import type { CardSelections, Suits } from "../types";
 import coin from "../assets/coin.png";
 import cup from "../assets/cup.png";
 import club from "../assets/club.png";
 import sword from "../assets/spade.png";
-import { getCardImage } from "../utils/cardImages";
-
-export type Suits = "coins" | "cups" | "swords" | "clubs";
-
-export type CardValue =
-  | "seven"
-  | "six"
-  | "ace"
-  | "five"
-  | "four"
-  | "three"
-  | "two"
-  | "jack"
-  | "horse"
-  | "king";
 
 function Primiera() {
   const [currentScore, setCurrentScore] = useState<number | null>(null);
@@ -27,30 +19,12 @@ function Primiera() {
   const [currentPlayer, setCurrentPlayer] = useState(1);
   const [playerScores, setPlayerScores] = useState<number[]>([]);
   const [activeSuit, setActiveSuit] = useState<Suits | null>(null);
-  const [cardSelections, setCardSelections] = useState<{
-    coins: CardValue | null;
-    cups: CardValue | null;
-    swords: CardValue | null;
-    clubs: CardValue | null;
-  }>({
+  const [cardSelections, setCardSelections] = useState<CardSelections>({
     coins: null,
     cups: null,
     swords: null,
     clubs: null,
   });
-
-  const primieraValues: Record<CardValue, number> = {
-    seven: 21,
-    six: 18,
-    ace: 16,
-    five: 15,
-    four: 14,
-    three: 13,
-    two: 12,
-    jack: 10,
-    horse: 10,
-    king: 10,
-  };
 
   const resetCaculator = (players: number | null = null) => {
     setNumPlayers(players);
@@ -60,19 +34,7 @@ function Primiera() {
   };
 
   const handleCalculate = () => {
-    if (
-      !cardSelections.coins ||
-      !cardSelections.cups ||
-      !cardSelections.swords ||
-      !cardSelections.clubs
-    )
-      return;
-
-    const total =
-      primieraValues[cardSelections.coins] +
-      primieraValues[cardSelections.cups] +
-      primieraValues[cardSelections.swords] +
-      primieraValues[cardSelections.clubs];
+    const total = calculatePrimieraScore(cardSelections);
     setCurrentScore(total);
   };
 
@@ -84,19 +46,7 @@ function Primiera() {
     setCurrentScore(null);
   };
 
-  const determinePrimieraWinner = () => {
-    if (playerScores.length === 0) return null;
-    const sortedScores = [...playerScores].sort((a, b) => b - a);
-    // determine tie
-    if (sortedScores[0] === sortedScores[1]) {
-      return null;
-    }
-    const highScore = sortedScores[0];
-    const winnerIndex = playerScores.indexOf(highScore);
-    return winnerIndex + 1;
-  };
-
-  // prompt user choose # players. TODO extract to component. <PlayerSelection>
+  // prompt user choose # players
   if (!numPlayers) {
     return (
       <div className="min-h-screen bg-gradient-to-br from-emerald-700 to-emerald-800 flex flex-col items-center justify-center p-6">
@@ -132,7 +82,7 @@ function Primiera() {
   const allPlayersScored = playerScores.length === numPlayers;
 
   if (allPlayersScored) {
-    const winner = determinePrimieraWinner();
+    const winner = determinePrimieraWinner(playerScores);
 
     return (
       <>
@@ -144,15 +94,8 @@ function Primiera() {
             ← Back
           </Link>
         </div>
-        ;<h1>Final Results</h1>
-        {winner ? (
-          <p>
-            {" "}
-            <p>Winner: Player {winner}</p>
-          </p>
-        ) : (
-          <p>Tie (no point scored)</p>
-        )}
+        <h1>Final Results</h1>
+        {winner ? <p>Winner: Player {winner}</p> : <p>Tie (no point scored)</p>}
         <ul>
           {playerScores.map((score, player) => (
             <li key={player}>
@@ -170,34 +113,39 @@ function Primiera() {
     );
   }
 
-  // calculates one players score
+  // 4 suit buttons, when selected, modal opens for user to choose card.
   if (numPlayers && !allPlayersScored) {
     return (
       <>
         {/* put this h1 in header?  */}
         <h1>Primiera Calculator</h1>
         <h3>Player {currentPlayer}</h3>
-        <div>
-          <button onClick={() => setActiveSuit("coins")}>
-            {cardSelections.coins ? (
+        {/* show suit icon or selected card and value  */}
+        <button onClick={() => setActiveSuit("coins")}>
+          {cardSelections.coins ? (
+            <div className="flex flex-col items-center">
               <img
                 src={getCardImage("coins", cardSelections.coins)}
                 alt="Selected coin card"
+                className="w-24 h-auto"
               />
-            ) : (
-              <img src={coin} alt="Coin suit" />
-            )}
-          </button>
-          <button onClick={() => setActiveSuit("cups")}>
-            <img src={cup} alt="Cup suit" />
-          </button>
-          <button onClick={() => setActiveSuit("swords")}>
-            <img src={sword} alt="Spade/Sword suit" />
-          </button>
-          <button onClick={() => setActiveSuit("clubs")}>
-            <img src={club} alt="Club suit" />
-          </button>
-        </div>
+              <span className="text-sm mt-1 capitalize">
+                {primieraValues[cardSelections.coins]}
+              </span>
+            </div>
+          ) : (
+            <img src={coin} alt="Coin suit" className="w-12 h-auto" />
+          )}
+        </button>
+        <button onClick={() => setActiveSuit("cups")}>
+          <img src={cup} alt="Cup suit" />
+        </button>
+        <button onClick={() => setActiveSuit("swords")}>
+          <img src={sword} alt="Spade/Sword suit" />
+        </button>
+        <button onClick={() => setActiveSuit("clubs")}>
+          <img src={club} alt="Club suit" />
+        </button>
         {activeSuit && (
           <CardSelector
             activeSuit={activeSuit}
@@ -208,7 +156,7 @@ function Primiera() {
             }}
           />
         )}
-
+        {/* Calculate button disabled until 4 cards chosen  */}
         <button
           onClick={handleCalculate}
           disabled={

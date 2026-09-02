@@ -1,4 +1,4 @@
-import type { Suits, CardValue } from "../pages/Primiera";
+import type { Suits, CardValue } from "../types";
 import { getCardImage } from "../utils/cardImages";
 
 interface CardSelectorProps {
