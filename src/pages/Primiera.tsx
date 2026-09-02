@@ -6,9 +6,8 @@ import {
   determinePrimieraWinner,
   primieraValues,
 } from "../utils/primieraCalculator";
-import { getCardImage } from "../utils/cardImages";
 import type { CardSelections, Suits } from "../types";
-import { CARD_DATA } from "../utils/cardData";
+import { CARD_DATA, getCardImage } from "../utils/cardData";
 
 function Primiera() {
   const [currentScore, setCurrentScore] = useState<number | null>(null);
@@ -130,27 +129,27 @@ function Primiera() {
         <h3>Player {currentPlayer}</h3>
         {/* display suit or chosen card  */}
         <div className="flex gap-4">
-          {SUITS.map((suit) => (
+          {(Object.keys(CARD_DATA) as Suits[]).map((suit) => (
             <button
-              key={suit.id}
-              onClick={() => setActiveSuit(suit.id)}
+              key={suit}
+              onClick={() => setActiveSuit(suit)}
               className="flex flex-col items-center p-2 border-2 border-purple rounded-lg hover:border-blue-500 transition-all"
             >
-              {cardSelections[suit.id] ? (
+              {cardSelections[suit] ? (
                 <div>
                   <img
-                    src={getCardImage(suit.id, cardSelections[suit.id!])}
-                    alt={`Selected ${suit.id} card`}
+                    src={getCardImage(suit, cardSelections[suit])}
+                    alt={`Selected ${CARD_DATA[suit].name} card`}
                     className="w-24 h-auto"
                   />
                   <span className="text-sm mt-1 capitalize">
-                    {primieraValues[cardSelections[suit.id]!]}
+                    {primieraValues[cardSelections[suit]]}
                   </span>
                 </div>
               ) : (
                 <img
-                  src={suit.image}
-                  alt={`${suit.name} suit`}
+                  src={CARD_DATA[suit].icon}
+                  alt={`${CARD_DATA[suit].name} suit`}
                   className="w-24 h-auto"
                 />
               )}

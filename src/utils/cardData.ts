@@ -127,3 +127,7 @@ export const CARD_DATA: Record<
     ],
   },
 };
+
+export const getCardImage = (suit: Suits, value: CardValue) => {
+  return CARD_DATA[suit].cards.find((card) => card.value === value)?.image;
+};
