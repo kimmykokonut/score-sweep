@@ -8,10 +8,10 @@ import {
 } from "../utils/primieraCalculator";
 import { getCardImage } from "../utils/cardImages";
 import type { CardSelections, Suits } from "../types";
-import coin from "../assets/coin.png";
-import cup from "../assets/cup.png";
-import club from "../assets/club.png";
-import sword from "../assets/spade.png";
+import coin from "../assets/denare.png";
+import cup from "../assets/coppa.png";
+import club from "../assets/bastone.png";
+import sword from "../assets/spada.png";
 
 function Primiera() {
   const [currentScore, setCurrentScore] = useState<number | null>(null);
