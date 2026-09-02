@@ -169,18 +169,14 @@ function Primiera() {
             }}
           />
         )}
-        {/* Calculate button disabled until 4 cards chosen  */}
-        <button
-          onClick={handleCalculate}
-          disabled={
-            !cardSelections.coins ||
-            !cardSelections.cups ||
-            !cardSelections.swords ||
-            !cardSelections.clubs
-          }
-        >
-          Calculate score
-        </button>
+        {/* Calculate button hidden until 4 cards chosen  */}
+        {cardSelections.coins &&
+          cardSelections.cups &&
+          cardSelections.swords &&
+          cardSelections.clubs && (
+            <button onClick={handleCalculate}>Calculate score</button>
+          )}
+
         {currentScore !== null && (
           <div>
             <p>
