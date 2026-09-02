@@ -26,6 +26,13 @@ function Primiera() {
     clubs: null,
   });
 
+  const suits = [
+    { id: "coins" as Suits, image: coin, name: "Coins" },
+    { id: "cups" as Suits, image: cup, name: "Cups" },
+    { id: "swords" as Suits, image: sword, name: "Swords" },
+    { id: "clubs" as Suits, image: club, name: "Clubs" },
+  ];
+
   const resetCaculator = (players: number | null = null) => {
     setNumPlayers(players);
     setPlayerScores([]);
@@ -58,21 +65,21 @@ function Primiera() {
         <div className="flex flex-col gap-4 w-full max-w-xs">
           <button
             onClick={() => resetCaculator(2)}
-            className="bg-white text-green-900 font-bold py-4 px-8 rounded-lg shadow-lg hover:bg-stone-300 hover:scale-105 transition-all text-xl flex items-center justify-center gap-3"
+            className="bg-white text-green-800 font-bold py-4 px-8 rounded-lg shadow-lg hover:bg-gray-200 hover:scale-105 transition-all text-xl flex items-center justify-center gap-3"
           >
-            <img src={coin} alt="card" className="w-8 h-8" />2 Players
+            <img src={coin} alt="Coin suit" className="h-10" />2 Players
           </button>
           <button
             onClick={() => resetCaculator(3)}
-            className="bg-white text-green-900 font-bold py-4 px-8 rounded-lg shadow-lg hover:bg-stone-300 hover:scale-105 transition-all text-xl flex items-center justify-center gap-3"
+            className="bg-white text-green-800 font-bold py-4 px-8 rounded-lg shadow-lg hover:bg-gray-200 hover:scale-105 transition-all text-xl flex items-center justify-center gap-3"
           >
-            <img src={club} alt="card" className="w-8 h-8" />3 Players
+            <img src={sword} alt="Sword suit" className="h-10" />3 Players
           </button>
           <button
             onClick={() => resetCaculator(4)}
-            className="bg-white text-green-900 font-bold py-4 px-8 rounded-lg shadow-lg hover:bg-stone-300 hover:scale-105 transition-all text-xl flex items-center justify-center gap-3"
+            className="bg-white text-green-800 font-bold py-4 px-8 rounded-lg shadow-lg hover:bg-gray-200 hover:scale-105 transition-all text-xl flex items-center justify-center gap-3"
           >
-            <img src={cup} alt="card" className="w-8 h-8" />4 Players
+            <img src={cup} alt="Cup Suit" className="h-10" />4 Players
           </button>
         </div>
       </div>
@@ -120,32 +127,35 @@ function Primiera() {
         {/* put this h1 in header?  */}
         <h1>Primiera Calculator</h1>
         <h3>Player {currentPlayer}</h3>
-        {/* show suit icon or selected card and value  */}
-        <button onClick={() => setActiveSuit("coins")}>
-          {cardSelections.coins ? (
-            <div className="flex flex-col items-center">
-              <img
-                src={getCardImage("coins", cardSelections.coins)}
-                alt="Selected coin card"
-                className="w-24 h-auto"
-              />
-              <span className="text-sm mt-1 capitalize">
-                {primieraValues[cardSelections.coins]}
-              </span>
-            </div>
-          ) : (
-            <img src={coin} alt="Coin suit" className="w-12 h-auto" />
-          )}
-        </button>
-        <button onClick={() => setActiveSuit("cups")}>
-          <img src={cup} alt="Cup suit" />
-        </button>
-        <button onClick={() => setActiveSuit("swords")}>
-          <img src={sword} alt="Spade/Sword suit" />
-        </button>
-        <button onClick={() => setActiveSuit("clubs")}>
-          <img src={club} alt="Club suit" />
-        </button>
+        <div className="flex gap-4">
+          {suits.map((suit) => (
+            <button
+              key={suit.id}
+              onClick={() => setActiveSuit(suit.id)}
+              className="flex flex-col items-center p-2 border-2 border-purple rounded-lg hover:border-blue-500 transition-all"
+            >
+              {cardSelections[suit.id] ? (
+                <div>
+                  <img
+                    src={getCardImage(suit.id, cardSelections[suit.id])}
+                    alt={`Selected {suit.id} card`}
+                    className="w-24 h-auto"
+                  />
+                  <span className="text-sm mt-1 capitalize">
+                    {primieraValues[cardSelections[suit.id]!]}
+                  </span>
+                </div>
+              ) : (
+                <img
+                  src={suit.image}
+                  alt={`${suit.name} suit`}
+                  className="w-24 h-auto"
+                />
+              )}
+            </button>
+          ))}
+        </div>
+
         {activeSuit && (
           <CardSelector
             activeSuit={activeSuit}
