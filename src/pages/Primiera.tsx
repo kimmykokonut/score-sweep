@@ -38,8 +38,21 @@ function Primiera() {
     if (currentScore !== null) {
       setPlayerScores([...playerScores, currentScore]);
     }
-    setCurrentPlayer(currentPlayer + 1);
     setCurrentScore(null);
+    resetCardSelections();
+    // triggers win screen
+    if (currentPlayer !== numPlayers) {
+      setCurrentPlayer(currentPlayer + 1);
+    }
+  };
+
+  const resetCardSelections = () => {
+    setCardSelections({
+      coins: null,
+      cups: null,
+      swords: null,
+      clubs: null,
+    });
   };
 
   // prompt user choose # players
@@ -87,7 +100,6 @@ function Primiera() {
   }
 
   const allPlayersScored = playerScores.length === numPlayers;
-
   if (allPlayersScored) {
     const winner = determinePrimieraWinner(playerScores);
 
@@ -185,7 +197,12 @@ function Primiera() {
           </div>
         )}
         {currentScore && (
-          <button onClick={handleContinue}>Continue to Next Player</button>
+          <button
+            className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
+            onClick={handleContinue}
+          >
+            {currentPlayer === numPlayers ? "Finalize Scores" : "Next Player"}
+          </button>
         )}
         <ul>
           {playerScores.map((score, player) => (
