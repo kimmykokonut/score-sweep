@@ -99,78 +99,80 @@ function Primiera() {
     );
   }
 
-  const allPlayersScored = playerScores.length === numPlayers;
-  if (allPlayersScored) {
+  // 4 suit buttons, when selected, modal opens for user to choose card.
+  if (numPlayers) {
+    const allPlayersScored = playerScores.length === numPlayers;
     const winner = determinePrimieraWinner(playerScores);
+    console.log("who winner", playerScores);
 
     return (
       <>
-        {/* turn into Header component later */}
-        <div
-          style={{ position: "fixed", top: "10px", left: "10px", zIndex: 1000 }}
-        >
+        <div>
           <Link to="/" style={{ fontSize: "24px", textDecoration: "none" }}>
             ← Back
           </Link>
         </div>
-        <h1>Final Results</h1>
-        {winner ? <p>Winner: Player {winner}</p> : <p>Tie (no point scored)</p>}
-        <ul>
-          {playerScores.map((score, player) => (
-            <li key={player}>
-              Player {player + 1} : Score {score}
-            </li>
-          ))}
-        </ul>
-        <div>
-          <button className="border" onClick={() => resetCaculator(numPlayers)}>
-            Reset Calculator (same number of players)
-          </button>
-          <button className="border" onClick={() => resetCaculator(null)}>
-            Reset and change player count
-          </button>
-        </div>
-      </>
-    );
-  }
-
-  // 4 suit buttons, when selected, modal opens for user to choose card.
-  if (numPlayers && !allPlayersScored) {
-    return (
-      <>
         {/* put this h1 in header?  */}
         <h1>Primiera Calculator</h1>
-        <h3>Player {currentPlayer}</h3>
-        {/* display suit or chosen card  */}
-        <div className="flex gap-4">
-          {(Object.keys(CARD_DATA) as Suits[]).map((suit) => (
-            <button
-              key={suit}
-              onClick={() => setActiveSuit(suit)}
-              className="flex flex-col items-center p-2 border-2 border-purple rounded-lg hover:border-blue-500 transition-all"
-            >
-              {cardSelections[suit] ? (
-                <div>
-                  <img
-                    src={getCardImage(suit, cardSelections[suit])}
-                    alt={`Selected ${CARD_DATA[suit].name} card`}
-                    className="w-24 h-auto"
-                  />
-                  <span className="text-sm mt-1 capitalize">
-                    {primieraValues[cardSelections[suit]]}
-                  </span>
-                </div>
-              ) : (
-                <img
-                  src={CARD_DATA[suit].icon}
-                  alt={`${CARD_DATA[suit].name} suit`}
-                  className="w-24 h-auto"
-                />
-              )}
-            </button>
-          ))}
-        </div>
-
+        {allPlayersScored && (
+          <>
+            <h1>Final Results</h1>
+            {winner ? (
+              <p>
+                Winner: Player {winner}: {playerScores[winner - 1]} points
+              </p>
+            ) : (
+              <p>Tie (no point scored)</p>
+            )}
+            <div>
+              <button
+                className="border"
+                onClick={() => resetCaculator(numPlayers)}
+              >
+                Reset Calculator (same number of players)
+              </button>
+              <button className="border" onClick={() => resetCaculator(null)}>
+                Reset and change player count
+              </button>
+            </div>
+          </>
+        )}
+        {/* display suit or chosen card, calculate button  */}
+        {!allPlayersScored && (
+          <>
+            <div className="flex gap-4">
+              {(Object.keys(CARD_DATA) as Suits[]).map((suit) => (
+                <button
+                  key={suit}
+                  onClick={() => setActiveSuit(suit)}
+                  className="flex flex-col items-center p-2 border-2 border-purple rounded-lg hover:border-blue-500 transition-all"
+                >
+                  {cardSelections[suit] ? (
+                    <div>
+                      <img
+                        src={getCardImage(suit, cardSelections[suit])}
+                        alt={`Selected ${CARD_DATA[suit].name} card`}
+                        className="w-24 h-auto"
+                      />
+                      <span className="text-sm mt-1 capitalize">
+                        {primieraValues[cardSelections[suit]]}
+                      </span>
+                    </div>
+                  ) : (
+                    <img
+                      src={CARD_DATA[suit].icon}
+                      alt={`${CARD_DATA[suit].name} suit`}
+                      className="w-24 h-auto"
+                    />
+                  )}
+                </button>
+              ))}
+            </div>
+            <h3>
+              ...Calculating for Player {currentPlayer} (of {numPlayers})...
+            </h3>
+          </>
+        )}
         {activeSuit && (
           <CardSelector
             activeSuit={activeSuit}
