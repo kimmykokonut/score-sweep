@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Link } from "react-router";
 import CardSelector from "../components/CardSelector";
 import {
   calculatePrimieraScore,
@@ -107,13 +106,6 @@ function Primiera() {
 
     return (
       <>
-        <div>
-          <Link to="/" style={{ fontSize: "24px", textDecoration: "none" }}>
-            ← Back
-          </Link>
-        </div>
-        {/* put this h1 in header?  */}
-        <h1>Primiera Calculator</h1>
         {allPlayersScored && (
           <>
             <h1>Final Results</h1>
