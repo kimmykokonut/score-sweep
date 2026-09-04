@@ -8,6 +8,7 @@ import {
 import type { CardSelections, Suits } from "../types";
 import { CARD_DATA, getCardImage } from "../utils/cardData";
 import PrimieraTitle from "../components/PrimieraTitle";
+import ScoreList from "../components/PrimieraScoreList";
 
 function Primiera() {
   const [currentScore, setCurrentScore] = useState<number | null>(null);
@@ -107,6 +108,36 @@ function Primiera() {
     const allPlayersScored = playerScores.length === numPlayers;
     const winner = determinePrimieraWinner(playerScores);
 
+    if (allPlayersScored) {
+      return (
+        <div className={primieraPageClasses}>
+          <h1 className="text-emerald-800">Final Results</h1>
+          {winner ? (
+            <h4 className="text-emerald-700">
+              Winner: Player {winner}: {playerScores[winner - 1]} points
+            </h4>
+          ) : (
+            <h4>Tie (no point scored)</h4>
+          )}
+          <ScoreList scores={playerScores} />
+          <div className="flex gap-2 p-2">
+            <button
+              className="rounded-md bg-yellow-300 px-3 py-1 font-semibold text-emerald-800 transition-colors hover:bg-gray-400"
+              onClick={() => resetCaculator(numPlayers)}
+            >
+              New Primiera
+            </button>
+            <button
+              className="rounded-md bg-yellow-300 px-3 py-1 font-semibold text-emerald-800 transition-colors hover:bg-gray-400"
+              onClick={() => resetCaculator(null)}
+            >
+              Change Player Count
+            </button>
+          </div>
+        </div>
+      );
+    }
+
     return (
       <>
         {/* Player scoring by suit  */}
@@ -192,38 +223,8 @@ function Primiera() {
               )}
             </div>
           )}
-
-          <ul className="w-full max-w-sm space-y-1 p-1 text-center rounded-md border border-emerald-100 bg-white">
-            {playerScores.map((score, player) => (
-              <li key={player} className="text-emerald-800 font-semibold">
-                Player {player + 1}: {score}
-              </li>
-            ))}
-          </ul>
+          <ScoreList scores={playerScores} />
         </div>
-        {allPlayersScored && (
-          <>
-            <h1 className="text-3xl font-bold text-gray-900">Final Results</h1>
-            {winner ? (
-              <p className="text-lg text-gray-700">
-                Winner: Player {winner}: {playerScores[winner - 1]} points
-              </p>
-            ) : (
-              <p>Tie (no point scored)</p>
-            )}
-            <div className="flex w-full max-w-sm flex-col gap-3 sm:flex-row">
-              <button
-                className="border"
-                onClick={() => resetCaculator(numPlayers)}
-              >
-                Reset Calculator (same number of players)
-              </button>
-              <button className="border" onClick={() => resetCaculator(null)}>
-                Reset and change player count
-              </button>
-            </div>
-          </>
-        )}
       </>
     );
   }
