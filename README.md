@@ -1,4 +1,6 @@
-# Score Sweep
+# Sweeper
+
+**Scopa Italian card game score calculator**
 
 _by [Kim Robinson](https://github.com/kimmykokonut)_
 
@@ -52,11 +54,11 @@ None at this time
 ### Prerequisites
 
 1. Code Editor
-   To view or edit the code, you will need a code editor or text editor. The open-source code editor I used is VisualStudio Code.
 
-   (a) Code Editor Download: [VisualStudio Code](https://www.npmjs.com/)
-   (b) Click the download most applicable to your OS and system.
-   (c) Wait for download to complete, then install -- Windows will run the setup exe and macOS will drag and drop into applications.
+   To view or edit the code, you will need a code editor or text editor. The open-source code editor I used is VisualStudio Code.
+   - Download: [VisualStudio Code](https://www.npmjs.com/)
+   - Select the download most applicable to your OS and system.
+   - Download & install -- Windows will run the setup exe and macOS will drag and drop into applications.
 
 2. Node (& Homebrew)
 
@@ -64,13 +66,13 @@ None at this time
 node -v
 ```
 
-If you don't have node, you can install via homebrew
+_If you don't have node_, you can easily install via homebrew
 
 ```bash
 brew install node
 ```
 
-If you don't have homebrew, install instructions [here](https://brew.sh/)
+_If you don't have homebrew_, install instructions [here](https://brew.sh/)
 
 ### Setup
 
@@ -84,13 +86,13 @@ If you don't have homebrew, install instructions [here](https://brew.sh/)
 
 4. On your local computer, create a working directory of your choice.
 
-5. Clone repo
+5. Clone repo:
 
 ```bash
 git clone https://github.com/kimmykokonut/score-sweep
 ```
 
-6. Navigate into the project directory.
+6. Navigate into the project directory:
 
 ```bash
 cd score-sweep
@@ -102,7 +104,7 @@ cd score-sweep
 code .
 ```
 
-8. Install dependenciens
+8. Install dependencies:
 
 ```bash
 npm install
@@ -118,14 +120,16 @@ Open [http://localhost:5173/](http://localhost:5173/) with your browser to see t
 
 ## Stretch Goals
 
-Phases
+### Phases
 
 1. Build Primiera calculator for 1 person
-2. Primiera calc for up to 4 players, assess winner
+2. Primiera calc for up to 4 players, assess winner and display
 3. Add scopa scorecard for up to 4 players
 4. Progressive web app plugin
-   Stretch
-5. Data persistence
+
+### Stretch
+
+5. Data persistence investigation & implementation
 6. Cribbage integration?
 
 ## Contact and Support
