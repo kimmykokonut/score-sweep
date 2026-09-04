@@ -23,7 +23,7 @@ function Primiera() {
   });
 
   const primieraPageClasses =
-    "mx-auto flex min-h-[calc(100svh-4rem)] w-full max-w-4xl flex-col items-center gap-6 px-4 py-6 bg-gradient-to-br from-emerald-700 to-emerald-800";
+    "mx-auto min-h-[calc(100svh-4rem)] w-full max-w-4xl flex flex-col items-center gap-6 px-4 py-4 bg-gradient-to-br from-emerald-700 to-emerald-800";
   const playerSelectBtnClasses =
     "bg-white text-green-800 font-bold py-4 px-8 rounded-lg shadow-lg hover:bg-gray-200 hover:scale-105 transition-all text-xl flex items-center justify-center gap-3";
 
@@ -63,9 +63,8 @@ function Primiera() {
   // prompt user choose # players
   if (!numPlayers) {
     return (
-      <div className={primieraPageClasses}>
+      <div className={`${primieraPageClasses} justify-center`}>
         <PrimieraTitle />
-        <p className="text-green-200 mb-8 text-center">Quanti giocatori?</p>
         <div className="flex flex-col gap-4 w-full max-w-xs">
           <button
             onClick={() => resetCaculator(2)}
@@ -109,49 +108,26 @@ function Primiera() {
 
     return (
       <>
-        {allPlayersScored && (
-          <>
-            <h1 className="text-3xl font-bold text-gray-900">Final Results</h1>
-            {winner ? (
-              <p className="text-lg text-gray-700">
-                Winner: Player {winner}: {playerScores[winner - 1]} points
-              </p>
-            ) : (
-              <p>Tie (no point scored)</p>
-            )}
-            <div className="flex w-full max-w-sm flex-col gap-3 sm:flex-row">
-              <button
-                className="border"
-                onClick={() => resetCaculator(numPlayers)}
-              >
-                Reset Calculator (same number of players)
-              </button>
-              <button className="border" onClick={() => resetCaculator(null)}>
-                Reset and change player count
-              </button>
-            </div>
-          </>
-        )}
+        {/* Player scoring by suit  */}
         <div className={primieraPageClasses}>
-          {/* display suit or chosen card, calculate button  */}
           {!allPlayersScored && (
             <>
               <PrimieraTitle />
-              <div className="flex gap-4">
+              <div className="grid w-full max-w-2xl grid-cols-2 gap-4 md:grid-cols-4">
                 {(Object.keys(CARD_DATA) as Suits[]).map((suit) => (
                   <button
                     key={suit}
                     onClick={() => setActiveSuit(suit)}
-                    className="flex flex-col items-center p-2 border-2 border-purple rounded-lg hover:border-blue-500 transition-all"
+                    className="flex aspect-[2/3] flex-col items-center justify-center rounded-md bg-white p-1 shadow-lg transition-colors hover:bg-gray-200"
                   >
                     {cardSelections[suit] ? (
                       <div>
                         <img
                           src={getCardImage(suit, cardSelections[suit])}
                           alt={`Selected ${CARD_DATA[suit].name} card`}
-                          className="w-24 h-auto"
+                          className="min-h-0 max-h-[calc(100%-1.5rem)] max-w-full object-contain"
                         />
-                        <span className="text-sm mt-1 capitalize">
+                        <span className="shrink-0 text-sm">
                           {primieraValues[cardSelections[suit]]}
                         </span>
                       </div>
@@ -159,7 +135,6 @@ function Primiera() {
                       <img
                         src={CARD_DATA[suit].icon}
                         alt={`${CARD_DATA[suit].name} suit`}
-                        className="w-24 h-auto"
                       />
                     )}
                   </button>
@@ -219,6 +194,29 @@ function Primiera() {
             ))}
           </ul>
         </div>
+        {allPlayersScored && (
+          <>
+            <h1 className="text-3xl font-bold text-gray-900">Final Results</h1>
+            {winner ? (
+              <p className="text-lg text-gray-700">
+                Winner: Player {winner}: {playerScores[winner - 1]} points
+              </p>
+            ) : (
+              <p>Tie (no point scored)</p>
+            )}
+            <div className="flex w-full max-w-sm flex-col gap-3 sm:flex-row">
+              <button
+                className="border"
+                onClick={() => resetCaculator(numPlayers)}
+              >
+                Reset Calculator (same number of players)
+              </button>
+              <button className="border" onClick={() => resetCaculator(null)}>
+                Reset and change player count
+              </button>
+            </div>
+          </>
+        )}
       </>
     );
   }
