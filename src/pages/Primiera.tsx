@@ -116,10 +116,12 @@ function Primiera() {
           </h1>
           {winner ? (
             <h2 className="font-semi-bold text-white">
-              Winner: Player {winner}: {playerScores[winner - 1]} points
+              🎉 Winner: Player {winner}: {playerScores[winner - 1]} points
             </h2>
           ) : (
-            <h4>Tie (no point scored)</h4>
+            <h2 className="font-semi-bold text-white">
+              😭 Tie (no point scored)
+            </h2>
           )}
           <ScoreList scores={playerScores} />
           <div className="flex gap-2 p-2">
