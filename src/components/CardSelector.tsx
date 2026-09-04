@@ -7,6 +7,7 @@ interface CardSelectorProps {
   onCardSelect: (suit: Suits, value: CardValue) => void;
 }
 
+// Modal that covers Calc Screen for user to select card by suit
 function CardSelector({
   activeSuit,
   onClose,
@@ -15,23 +16,49 @@ function CardSelector({
   if (!activeSuit) return null;
 
   return (
-    <div onClick={onClose}>
-      <div className="modal-content" onClick={(e) => e.stopPropagation()}>
-        <h3>Select {activeSuit}</h3>
-        <div className="flex gap-4">
+    <div
+      className="fixed inset-x-0 bottom-0 top-16 z-40 overflow-y-auto bg-black/60 p-3"
+      onClick={onClose}
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="card-selector-title"
+    >
+      <div
+        className="mx-auto flex w-full max-w-5xl flex-col rounded-xl bg-emerald-50 p-3 shadow-2xl sm:p-5"
+        onClick={(event) => event.stopPropagation()}
+      >
+        <div className="relative mb-4">
+          <h3
+            id="card-selector-title"
+            className="text-center text-2xl font-bold text-emerald-800"
+          >
+            {CARD_DATA[activeSuit].displayName}
+          </h3>
+
+          <button
+            type="button"
+            onClick={onClose}
+            className="absolute right-0 top-1/2 -translate-y-1/2 rounded-md px-3 py-2 font-semibold text-emerald-800 hover:bg-gray-800"
+          >
+            X
+          </button>
+        </div>
+
+        <div className="grid grid-cols-3 gap-3 md:grid-cols-4">
           {CARD_DATA[activeSuit].cards.map((card) => (
             <button
               key={card.value}
+              type="button"
               onClick={() => onCardSelect(activeSuit, card.value)}
-              className="flex flex-col items-center p-2 border-2 border-purple rounded-lg hover:border-blue-500 transition-all"
+              className="flex aspect-[2/3] items-center justify-center overflow-hidden rounded-lg border border-emerald-100 bg-white p-2 shadow-md transition hover:scale-[1.02] hover:ring-2 hover:ring-emerald-800 last:col-start-2"
             >
               <img
                 src={card.image}
                 alt={`${card.displayName} of ${CARD_DATA[activeSuit].name}`}
+                className="h-full w-full object-contain"
               />
             </button>
           ))}
-          <button onClick={onClose}>Cancel</button>
         </div>
       </div>
     </div>
