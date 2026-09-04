@@ -76,8 +76,6 @@ _If you don't have homebrew_, install instructions [here](https://brew.sh/)
 
 ### Setup
 
-### Clone repository
-
 1. Navigate to the [repository](https://github.com/kimmykokonut/score-sweep).
 
 2. Select the `Fork` button and you will be taken to a new page where you can give your repository a new name and description. Choose "create fork".
@@ -117,6 +115,24 @@ npm run dev
 ```
 
 Open [http://localhost:5173/](http://localhost:5173/) with your browser to see the local app.
+
+### Optional (PWA)
+
+I have a Vite's Progressive Web App Plugin installed.
+
+Build
+
+```bash
+npm run build
+```
+
+Run locally
+
+```bash
+npm run preview
+```
+
+➜ [Localhost url](http://localhost:4173/)
 
 ## Stretch Goals
 
