@@ -108,7 +108,7 @@ code .
 npm install
 ```
 
-9. Run local server:
+9. Run local server for development :
 
 ```bash
 npm run dev
@@ -126,7 +126,7 @@ Build
 npm run build
 ```
 
-Run locally
+Test production build locally
 
 ```bash
 npm run preview
