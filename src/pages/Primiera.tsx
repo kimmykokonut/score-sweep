@@ -115,9 +115,14 @@ function Primiera() {
             Final Results
           </h1>
           {winner ? (
-            <h2 className="font-semi-bold text-white">
-              🎉 Winner: Player {winner}: {playerScores[winner - 1]} points
-            </h2>
+            <>
+              <h2 className="font-semi-bold text-white">
+                🎉 Winner: Player {winner}
+              </h2>
+              <h2 className="font-semi-bold text-white">
+                {playerScores[winner - 1]} points
+              </h2>
+            </>
           ) : (
             <h2 className="font-semi-bold text-white">
               😭 Tie (no point scored)
