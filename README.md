@@ -10,6 +10,8 @@ _by [Kim Robinson](https://github.com/kimmykokonut)_
 
 🌞 Save your mental energy for that Settebello swipe.
 
+See WIP live [here](https://kimmykokonut.github.io/sweeper/)
+
 ![Settebello card](src/assets/7-denari.jpg)
 
 ## Jump around
@@ -76,7 +78,7 @@ _If you don't have homebrew_, install instructions [here](https://brew.sh/)
 
 ### Setup
 
-1. Navigate to the [repository](https://github.com/kimmykokonut/score-sweep).
+1. Navigate to the [repository](https://github.com/kimmykokonut/sweeper).
 
 2. Select the `Fork` button and you will be taken to a new page where you can give your repository a new name and description. Choose "create fork".
 
@@ -87,13 +89,13 @@ _If you don't have homebrew_, install instructions [here](https://brew.sh/)
 5. Clone repo:
 
 ```bash
-git clone https://github.com/kimmykokonut/score-sweep
+git clone https://github.com/kimmykokonut/sweeper
 ```
 
 6. Navigate into the project directory:
 
 ```bash
-cd score-sweep
+cd sweeper
 ```
 
 7. View/Edit in VS Code:
@@ -151,8 +153,8 @@ npm run preview
 ## Contact and Support
 
 If you have any feedback or concerns,
-[Report Bug](https://github.com/kimmykokonut/score-sweep/issues)
-[Request Feature](https://github.com/kimmykokonut/score-sweep/issues)
+[Report Bug](https://github.com/kimmykokonut/sweeper/issues)
+[Request Feature](https://github.com/kimmykokonut/sweeper/issues)
 
 ## License
 
