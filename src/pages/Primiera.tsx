@@ -1,14 +1,14 @@
 import { useState } from "react";
 import CardSelector from "../components/CardSelector";
+import PrimieraTitle from "../components/PrimieraTitle";
+import ScoreList from "../components/PrimieraScoreList";
 import {
   calculatePrimieraScore,
   determinePrimieraWinner,
   primieraValues,
 } from "../utils/primieraCalculator";
-import type { CardSelections, Suits } from "../types";
 import { CARD_DATA, getCardImage } from "../utils/cardData";
-import PrimieraTitle from "../components/PrimieraTitle";
-import ScoreList from "../components/PrimieraScoreList";
+import type { CardSelections, Suits } from "../types";
 
 function Primiera() {
   const [currentScore, setCurrentScore] = useState<number | null>(null);
@@ -111,11 +111,13 @@ function Primiera() {
     if (allPlayersScored) {
       return (
         <div className={primieraPageClasses}>
-          <h1 className="text-emerald-800">Final Results</h1>
+          <h1 className="text-3xl font-semibold text-white mb-2">
+            Final Results
+          </h1>
           {winner ? (
-            <h4 className="text-emerald-700">
+            <h2 className="font-semi-bold text-white">
               Winner: Player {winner}: {playerScores[winner - 1]} points
-            </h4>
+            </h2>
           ) : (
             <h4>Tie (no point scored)</h4>
           )}
