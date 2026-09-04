@@ -24,6 +24,8 @@ function Primiera() {
 
   const primieraPageClasses =
     "mx-auto min-h-[calc(100svh-4rem)] w-full max-w-4xl flex flex-col items-center gap-6 px-4 py-4 bg-gradient-to-br from-emerald-700 to-emerald-800";
+  const calculatorPageClasses =
+    "mx-auto min-h-[calc(100svh-4rem)] w-full max-w-4xl flex flex-col items-center gap-2 px-4 py-2 bg-gradient-to-br from-emerald-700 to-emerald-800";
   const playerSelectBtnClasses =
     "bg-white text-green-800 font-bold py-4 px-8 rounded-lg shadow-lg hover:bg-gray-200 hover:scale-105 transition-all text-xl flex items-center justify-center gap-3";
 
@@ -104,30 +106,38 @@ function Primiera() {
   if (numPlayers) {
     const allPlayersScored = playerScores.length === numPlayers;
     const winner = determinePrimieraWinner(playerScores);
-    console.log("who winner", playerScores);
 
     return (
       <>
         {/* Player scoring by suit  */}
-        <div className={primieraPageClasses}>
+        <div className={calculatorPageClasses}>
           {!allPlayersScored && (
             <>
               <PrimieraTitle />
-              <div className="grid w-full max-w-2xl grid-cols-2 gap-4 md:grid-cols-4">
+              <p className="-mt-2 text-center text-white">
+                Player ({currentPlayer}/{numPlayers})
+              </p>
+              <div
+                className={`grid grid-cols-2 md:grid-cols-4 ${
+                  currentScore !== null
+                    ? "w-5/6 max-w-md gap-2"
+                    : "w-full max-w-2xl gap-4"
+                }`}
+              >
                 {(Object.keys(CARD_DATA) as Suits[]).map((suit) => (
                   <button
                     key={suit}
                     onClick={() => setActiveSuit(suit)}
-                    className="flex aspect-[2/3] flex-col items-center justify-center rounded-md bg-white p-1 shadow-lg transition-colors hover:bg-gray-200"
+                    className="flex aspect-[2/3] flex-col items-center justify-center overflow-hidden rounded-md bg-white p-1 shadow-lg transition-colors hover:bg-gray-200"
                   >
                     {cardSelections[suit] ? (
-                      <div>
+                      <div className="flex h-full w-full flex-col items-center justify-center">
                         <img
                           src={getCardImage(suit, cardSelections[suit])}
                           alt={`Selected ${CARD_DATA[suit].name} card`}
-                          className="min-h-0 max-h-[calc(100%-1.5rem)] max-w-full object-contain"
+                          className="min-h-0 w-full flex-1 object-contain"
                         />
-                        <span className="shrink-0 text-sm">
+                        <span className="shrink-0 text-sm font-semibold text-emerald-800">
                           {primieraValues[cardSelections[suit]]}
                         </span>
                       </div>
@@ -135,14 +145,12 @@ function Primiera() {
                       <img
                         src={CARD_DATA[suit].icon}
                         alt={`${CARD_DATA[suit].name} suit`}
+                        className="max-h-full max-w-full object-contain"
                       />
                     )}
                   </button>
                 ))}
               </div>
-              <h3 className="text-center text-lg font-semibold text-gray-800">
-                ...Calculating for Player {currentPlayer} (of {numPlayers})...
-              </h3>
             </>
           )}
           {activeSuit && (
@@ -155,41 +163,40 @@ function Primiera() {
               }}
             />
           )}
-          {/* Calculate button hidden until 4 cards chosen  */}
+          {/* Calculate button - hidden until 4 cards chosen  */}
           {cardSelections.coins &&
             cardSelections.cups &&
             cardSelections.swords &&
             cardSelections.clubs && (
               <button
-                className="rounded-lg bg-emerald-600 px-5 py-3 font-semibold text-white transition-colors hover:bg-emerald-700"
+                className="rounded-md bg-yellow-300 px-3 py-1 font-semibold text-emerald-800 transition-colors hover:bg-gray-400"
                 onClick={handleCalculate}
               >
                 Calculate score
               </button>
             )}
-
           {currentScore !== null && (
-            <div className="rounded-lg border border-gray-200 bg-gray-50 px-5 py-3 text-center shadow-sm">
-              <p className="font-semibold text-gray-800">
-                Player {currentPlayer} score: {currentScore}
-              </p>
+            <div className="w-full flex justify-between items-center rounded-md text-emerald-800 border border-emerald-100 bg-white px-3 py-2 shadow-sm">
+              {/* unconfirmed calculated player score  */}
+              <p className="font-semibold">Current Score: {currentScore}</p>
+              {/* Advance button  */}
+              {currentScore !== null && (
+                <button
+                  className="rounded-md text-white bg-blue-800 px-3 py-1 font-semibold transition-colors hover:bg-blue-600"
+                  onClick={handleContinue}
+                >
+                  {currentPlayer === numPlayers
+                    ? "Finalize Scores"
+                    : "Next Player"}
+                </button>
+              )}
             </div>
           )}
-          {currentScore && (
-            <button
-              className="bg-blue-500 text-white px-4 py-2 rounded-lg hover:bg-blue-600"
-              onClick={handleContinue}
-            >
-              {currentPlayer === numPlayers ? "Finalize Scores" : "Next Player"}
-            </button>
-          )}
-          <ul className="w-full max-w-sm space-y-2 text-center">
+
+          <ul className="w-full max-w-sm space-y-1 p-1 text-center rounded-md border border-emerald-100 bg-white">
             {playerScores.map((score, player) => (
-              <li
-                key={player}
-                className="rounded-md border border-gray-200 bg-white px-4 py-2 text-gray-700"
-              >
-                Player {player + 1} : Score {score}
+              <li key={player} className="text-emerald-800 font-semibold">
+                Player {player + 1}: {score}
               </li>
             ))}
           </ul>
