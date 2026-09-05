@@ -1,7 +1,7 @@
 function ScoreCard() {
   return (
     <>
-      <p>Scorecard page</p>
+      <h1>Under Construction...</h1>
     </>
   );
 }
